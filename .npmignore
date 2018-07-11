@@ -3,6 +3,7 @@
 !/es
 **/test/
 **/*.spec.js
+src/
 !package.json
 !LICENSE
 !README.md
