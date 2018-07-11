@@ -12,7 +12,7 @@ class App extends React.Component {
       length: 6,
       wrapAround: false,
       underlineHeader: false,
-      slidesToShow: 1.0,
+      slidesToShow: 3,
       cellAlign: 'left'
     };
 
@@ -25,12 +25,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <div style={{ width: '50%', margin: 'auto' }}>
+      <div style={{ width: '80%', margin: 'auto' }}>
         <Carousel
           cellAlign={this.state.cellAlign}
           slidesToShow={this.state.slidesToShow}
           wrapAround={this.state.wrapAround}
           slideIndex={this.state.slideIndex}
+          heightMode="aspectRatio"
+          aspectRatio={0.5625}
           renderTopCenterControls={({ currentSlide }) => (
             <div
               style={{
@@ -48,11 +50,11 @@ class App extends React.Component {
           {colors
             .slice(0, this.state.length)
             .map((color, index) => (
-              <img
-                src={`http://placehold.it/1000x400/${color}/ffffff/&text=slide${index +
-                  1}`}
+              <div
                 key={color}
-                onClick={this.handleImageClick}
+                style={{
+                  paddingTop: '56.25%',
+                  background: `url(http://placehold.it/1000x400/${color}/ffffff/&text=slide${index + 1}) center no-repeat` }}
               />
             ))}
         </Carousel>

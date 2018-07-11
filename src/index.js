@@ -727,8 +727,11 @@ export default class Carousel extends React.Component {
   }
 
   getSlideHeight(props, childNodes = []) {
-    const { heightMode, vertical } = props;
+    const { heightMode, vertical, aspectRatio } = props;
     const firstSlide = childNodes[0];
+    if (heightMode === 'aspectRatio') {
+      return firstSlide.offsetWidth * aspectRatio;
+    }
     if (firstSlide && heightMode === 'first') {
       return vertical
         ? firstSlide.offsetHeight * props.slidesToShow
@@ -789,6 +792,12 @@ export default class Carousel extends React.Component {
         top: props.vertical ? this.getTargetLeft() : 0
       },
       () => {
+        const slideHeight = this.getSlideHeight(props, childNodes);
+
+        if (slideHeight !== this.state.slideHeight) {
+          this.setState({ slideHeight });
+        }
+
         stateCb();
         this.setLeft();
       }
@@ -1152,7 +1161,8 @@ Carousel.propTypes = {
   edgeEasing: PropTypes.string,
   frameOverflow: PropTypes.string,
   framePadding: PropTypes.string,
-  heightMode: PropTypes.oneOf(['first', 'current', 'max']),
+  aspectRatio: PropTypes.number,
+  heightMode: PropTypes.oneOf(['first', 'current', 'max', 'aspectRatio']),
   initialSlideHeight: PropTypes.number,
   initialSlideWidth: PropTypes.number,
   onResize: PropTypes.func,
